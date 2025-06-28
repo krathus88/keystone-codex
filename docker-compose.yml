@@ -1,0 +1,53 @@
+services:
+    backend:
+        container_name: keystone-codex-backend
+        image: keystone-codex-backend
+        restart: ${RESTART_POLICY}
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        expose:
+            - "8000"
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./backend:/app
+            - static_volume:/app/static
+        env_file:
+            - ./backend/.env
+        environment:
+            - PYTHONPATH=/app
+            - MODE=${MODE}
+        depends_on:
+            - db
+
+    nginx:
+        container_name: keystone-codex-nginx
+        restart: ${RESTART_POLICY}
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+            args:
+                MODE: ${MODE}
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+            - static_volume:/usr/share/nginx/html/static:ro
+        depends_on:
+            - backend
+
+    db:
+        container_name: keystone-codex-db
+        image: postgres:17
+        restart: ${RESTART_POLICY}
+        env_file:
+            - ./backend/.env
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+volumes:
+    postgres_data:
+    static_volume:
