@@ -8,14 +8,13 @@ export const Header = () => {
         <Flex
             as="header"
             mb={2}
+            p={2}
             gap={4}
             borderBottom="1px solid"
             borderColor="border.main"
         >
             <Link to="/">
-                <H1 py={2} px={4}>
-                    Tips & Tricks
-                </H1>
+                <H1 px={2}>Tips & Tricks</H1>
             </Link>
 
             <Flex as="nav" gap={2} alignItems={"center"}>

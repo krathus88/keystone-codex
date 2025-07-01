@@ -22,6 +22,12 @@ export const colors = defineSemanticTokens.colors({
                 _dark: "#1c1c1f",
             },
         },
+        secondary: {
+            value: {
+                base: "#ffffff",
+                _dark: "#31313c",
+            },
+        },
     },
     border: {
         main: {

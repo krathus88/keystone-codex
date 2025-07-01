@@ -1,4 +1,8 @@
-import { currentSeasonMaps, type CurrentSeasonMapValueType } from "@models/Map"
+import {
+    CURRENT_SEASON_MAPS,
+    currentSeasonMaps,
+    type CurrentSeasonMapValueType,
+} from "@models/Map"
 
 export class MapService {
     /**
@@ -8,5 +12,11 @@ export class MapService {
      */
     static getCurrentSeasonMap(mapName: CurrentSeasonMapValueType): string {
         return currentSeasonMaps[mapName]
+    }
+
+    static isCurrentSeasonMapValueType(
+        value: string,
+    ): value is CurrentSeasonMapValueType {
+        return CURRENT_SEASON_MAPS.some((map) => map.value === value)
     }
 }

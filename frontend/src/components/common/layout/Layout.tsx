@@ -12,7 +12,7 @@ export const Layout = () => {
             minH="100dvh"
             flexDirection={"column"}
             justifyContent={"center"}
-            maxW={"8xl"}
+            maxW={"1920px"}
         >
             <Header />
 

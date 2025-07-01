@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import { Circle, Image as KonvaImage, Layer, Stage } from "react-konva"
 import useImage from "use-image"
@@ -13,11 +12,11 @@ const MIN_SCALE = 0.85
 const MAX_SCALE = 4
 
 type MapCanvasProps = {
+    containerRef: React.RefObject<HTMLDivElement | null>
     mapUrl: string
 }
 
-export const MapCanvas = ({ mapUrl }: MapCanvasProps) => {
-    const containerRef = useRef<HTMLDivElement>(null)
+export const MapCanvas = ({ containerRef, mapUrl }: MapCanvasProps) => {
     const stageRef = useRef<any>(null)
     const animationRef = useRef<number | null>(null)
 
@@ -172,43 +171,38 @@ export const MapCanvas = ({ mapUrl }: MapCanvasProps) => {
     }
 
     return (
-        <Box
-            ref={containerRef}
-            style={{ width: "100%", height: "100%", overflow: "hidden" }}
+        <Stage
+            width={containerSize.width}
+            height={containerSize.height}
+            scaleX={scale}
+            scaleY={scale}
+            x={position.x}
+            y={position.y}
+            draggable
+            onDragStart={handleDragStart}
+            onDragMove={handleDragMove}
+            onDragEnd={handleDragEnd}
+            onWheel={handleWheel}
+            onDblClick={handleDblClick}
+            ref={stageRef}
+            style={{ background: "#000" }}
         >
-            <Stage
-                width={containerSize.width}
-                height={containerSize.height}
-                scaleX={scale}
-                scaleY={scale}
-                x={position.x}
-                y={position.y}
-                draggable
-                onDragStart={handleDragStart}
-                onDragMove={handleDragMove}
-                onDragEnd={handleDragEnd}
-                onWheel={handleWheel}
-                onDblClick={handleDblClick}
-                ref={stageRef}
-                style={{ background: "#000" }}
-            >
-                <Layer>
-                    {mapImage && (
-                        <KonvaImage
-                            image={mapImage}
-                            x={0}
-                            y={0}
-                            width={imageSize.width}
-                            height={imageSize.height}
-                        />
-                    )}
-                </Layer>
-                <Layer>
-                    {notes.map((note) => (
-                        <Circle key={note.id} x={note.x} y={note.y} />
-                    ))}
-                </Layer>
-            </Stage>
-        </Box>
+            <Layer>
+                {mapImage && (
+                    <KonvaImage
+                        image={mapImage}
+                        x={0}
+                        y={0}
+                        width={imageSize.width}
+                        height={imageSize.height}
+                    />
+                )}
+            </Layer>
+            <Layer>
+                {notes.map((note) => (
+                    <Circle key={note.id} x={note.x} y={note.y} />
+                ))}
+            </Layer>
+        </Stage>
     )
 }

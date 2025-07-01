@@ -5,19 +5,19 @@ export const headingRecipe = defineRecipe({
         size: {
             h1: {
                 fontFamily: "roboto",
-                fontSize: "64px",
+                fontSize: "3rem",
                 lineHeight: "normal",
                 letterSpacing: "normal",
             },
             h2: {
                 fontFamily: "roboto",
-                fontSize: "48px",
+                fontSize: "2.5rem",
                 lineHeight: "normal",
                 letterSpacing: "normal",
             },
             h3: {
                 fontFamily: "roboto",
-                fontSize: "32px",
+                fontSize: "2rem",
                 lineHeight: "normal",
                 letterSpacing: "normal",
             },
