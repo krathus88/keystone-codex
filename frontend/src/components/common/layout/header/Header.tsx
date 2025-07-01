@@ -14,7 +14,7 @@ export const Header = () => {
             borderColor="border.main"
         >
             <Link to="/">
-                <H1 px={2}>Tips & Tricks</H1>
+                <H1 px={2}>Keystone Codex</H1>
             </Link>
 
             <Flex as="nav" gap={2} alignItems={"center"}>
