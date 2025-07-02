@@ -97,7 +97,7 @@ export const Home = () => {
     }
 
     return (
-        <Box>
+        <Box px={4}>
             <Flex mb="24px" flex="wrap" gap="12px">
                 <Button
                     variant="solid"

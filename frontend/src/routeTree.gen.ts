@@ -10,53 +10,60 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MapIndexRouteImport } from './routes/map/index'
-import { Route as MapMapRouteImport } from './routes/map/$map'
+import { Route as MapMapRouteRouteImport } from './routes/map/$map/route'
+import { Route as MapMapIndexRouteImport } from './routes/map/$map/index'
+import { Route as MapMapNotesRouteImport } from './routes/map/$map/notes'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MapIndexRoute = MapIndexRouteImport.update({
-  id: '/map/',
-  path: '/map/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MapMapRoute = MapMapRouteImport.update({
+const MapMapRouteRoute = MapMapRouteRouteImport.update({
   id: '/map/$map',
   path: '/map/$map',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MapMapIndexRoute = MapMapIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MapMapRouteRoute,
+} as any)
+const MapMapNotesRoute = MapMapNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => MapMapRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/map/$map': typeof MapMapRoute
-  '/map': typeof MapIndexRoute
+  '/map/$map': typeof MapMapRouteRouteWithChildren
+  '/map/$map/notes': typeof MapMapNotesRoute
+  '/map/$map/': typeof MapMapIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/map/$map': typeof MapMapRoute
-  '/map': typeof MapIndexRoute
+  '/map/$map/notes': typeof MapMapNotesRoute
+  '/map/$map': typeof MapMapIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/map/$map': typeof MapMapRoute
-  '/map/': typeof MapIndexRoute
+  '/map/$map': typeof MapMapRouteRouteWithChildren
+  '/map/$map/notes': typeof MapMapNotesRoute
+  '/map/$map/': typeof MapMapIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/map/$map' | '/map'
+  fullPaths: '/' | '/map/$map' | '/map/$map/notes' | '/map/$map/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/map/$map' | '/map'
-  id: '__root__' | '/' | '/map/$map' | '/map/'
+  to: '/' | '/map/$map/notes' | '/map/$map'
+  id: '__root__' | '/' | '/map/$map' | '/map/$map/notes' | '/map/$map/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MapMapRoute: typeof MapMapRoute
-  MapIndexRoute: typeof MapIndexRoute
+  MapMapRouteRoute: typeof MapMapRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -68,27 +75,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/map/': {
-      id: '/map/'
-      path: '/map'
-      fullPath: '/map'
-      preLoaderRoute: typeof MapIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/map/$map': {
       id: '/map/$map'
       path: '/map/$map'
       fullPath: '/map/$map'
-      preLoaderRoute: typeof MapMapRouteImport
+      preLoaderRoute: typeof MapMapRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/map/$map/': {
+      id: '/map/$map/'
+      path: '/'
+      fullPath: '/map/$map/'
+      preLoaderRoute: typeof MapMapIndexRouteImport
+      parentRoute: typeof MapMapRouteRoute
+    }
+    '/map/$map/notes': {
+      id: '/map/$map/notes'
+      path: '/notes'
+      fullPath: '/map/$map/notes'
+      preLoaderRoute: typeof MapMapNotesRouteImport
+      parentRoute: typeof MapMapRouteRoute
     }
   }
 }
 
+interface MapMapRouteRouteChildren {
+  MapMapNotesRoute: typeof MapMapNotesRoute
+  MapMapIndexRoute: typeof MapMapIndexRoute
+}
+
+const MapMapRouteRouteChildren: MapMapRouteRouteChildren = {
+  MapMapNotesRoute: MapMapNotesRoute,
+  MapMapIndexRoute: MapMapIndexRoute,
+}
+
+const MapMapRouteRouteWithChildren = MapMapRouteRoute._addFileChildren(
+  MapMapRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MapMapRoute: MapMapRoute,
-  MapIndexRoute: MapIndexRoute,
+  MapMapRouteRoute: MapMapRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

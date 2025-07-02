@@ -5,13 +5,29 @@ import {
 } from "@models/Map"
 import { MapService } from "@services/MapService"
 import { useMapContext } from "@store/MapContext"
+import { useRouter } from "@tanstack/react-router"
 import { Tooltip } from "@ui/tooltip"
 
 export const SeasonDungeonList = () => {
-    const { map: selectedMap, updateMap } = useMapContext()
+    const router = useRouter()
 
-    const onButtonClick = (map: CurrentSeasonDungeonType) => {
-        updateMap(map)
+    const { map: selectedMap } = useMapContext()
+
+    const onButtonClick = (newMap: CurrentSeasonDungeonType) => {
+        const currentPath = router.state.location.pathname
+        const mapParamMatch = currentPath.match(/\/map\/([^\/]+)/)
+
+        if (mapParamMatch) {
+            const oldMap = mapParamMatch[1]
+            const newPath = currentPath.replace(
+                `/map/${oldMap}`,
+                `/map/${newMap}`,
+            )
+
+            router.navigate({
+                to: newPath,
+            })
+        }
     }
 
     return (

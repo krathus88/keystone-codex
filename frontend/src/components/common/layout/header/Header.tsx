@@ -1,6 +1,7 @@
-import { Flex } from "@chakra-ui/react"
+import { Link as ChakraLink, Flex } from "@chakra-ui/react"
+import { DEFAULT_SELECTED_DUNGEON } from "@models/Map"
 import { useMapContext } from "@store/MapContext"
-import { Link } from "@tanstack/react-router"
+import { Link as TanstackLink } from "@tanstack/react-router"
 import { ColorModeButton } from "@ui/color-mode"
 import { H1 } from "@ui/h1"
 
@@ -10,24 +11,37 @@ export const Header = () => {
     return (
         <Flex
             as="header"
-            mb={2}
             p={2}
             gap={4}
             borderBottom="1px solid"
             borderColor="border.main"
         >
-            <Link to="/">
-                <H1 px={2}>Keystone Codex</H1>
-            </Link>
+            <ChakraLink asChild>
+                <TanstackLink to="/">
+                    <H1 px={2}>Keystone Codex</H1>
+                </TanstackLink>
+            </ChakraLink>
 
             <Flex as="nav" gap={2} alignItems={"center"}>
-                <Link
-                    to="/map/$map"
-                    params={{ map: map }}
-                    className="[&.active]:font-bold"
-                >
-                    Map
-                </Link>
+                <ChakraLink asChild>
+                    <TanstackLink
+                        to={"/map/$map"}
+                        params={{ map: map ?? DEFAULT_SELECTED_DUNGEON }}
+                        className="[&.active]:font-bold"
+                    >
+                        Map
+                    </TanstackLink>
+                </ChakraLink>
+
+                <ChakraLink asChild>
+                    <TanstackLink
+                        to={"/map/$map/notes"}
+                        params={{ map: map ?? DEFAULT_SELECTED_DUNGEON }}
+                        className="[&.active]:font-bold"
+                    >
+                        Notes
+                    </TanstackLink>
+                </ChakraLink>
             </Flex>
 
             <Flex ms="auto" me={4} alignItems={"center"}>

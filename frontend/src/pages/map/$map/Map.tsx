@@ -1,30 +1,18 @@
-import { Box, Flex, Heading, List, Spinner } from "@chakra-ui/react"
+import { Box, Flex, Heading, List } from "@chakra-ui/react"
 import { MapCanvas } from "@common/map/MapCanvas"
 import { NoMapError } from "@components/map/$map/NoMapError"
+import { Route } from "@routes/map/$map"
 import { MapService } from "@services/MapService"
-import { getRouteApi } from "@tanstack/react-router"
-import { useEffect, useRef, useState } from "react"
+import { useParams } from "@tanstack/react-router"
+import { useRef } from "react"
 
-const routeApi = getRouteApi("/map/$map")
+export const Map = () => {
+    const params = useParams({ from: Route.id })
 
-export const $map = () => {
-    const params = routeApi.useParams()
-
-    const [map, setMap] = useState<string>()
-    const [error, setError] = useState(false)
     const mapContainerRef = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        if (params.map && MapService.isCurrentSeasonMapValueType(params.map)) {
-            setMap(MapService.getCurrentSeasonMap(params.map))
-        } else {
-            setError(true)
-        }
-    }, [params.map])
-
-    if (error) return <NoMapError />
-
-    if (!map) return <Spinner />
+    if (!MapService.isCurrentSeasonMapValueType(params.map))
+        return <NoMapError />
 
     return (
         <Flex flexDirection={"column"}>
@@ -36,7 +24,10 @@ export const $map = () => {
                 borderRadius={"md"}
                 overflow={"hidden"}
             >
-                <MapCanvas containerRef={mapContainerRef} mapUrl={map} />
+                <MapCanvas
+                    containerRef={mapContainerRef}
+                    mapUrl={MapService.getCurrentSeasonMap(params.map)}
+                />
             </Box>
 
             <Flex flexDirection={"column"} gap={2}>

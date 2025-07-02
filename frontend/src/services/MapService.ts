@@ -1,11 +1,17 @@
 import {
+    ALL_AVAILABLE_MAPS,
     CURRENT_SEASON_DUNGEONS,
-    currentSeasonIcons,
-    currentSeasonMaps,
+    CURRENT_SEASON_ICONS,
+    CURRENT_SEASON_MAPS,
+    type AllAvailableDungeonsType,
     type CurrentSeasonDungeonType,
 } from "@models/Map"
 
 export class MapService {
+    static isValidMap(value: string): value is AllAvailableDungeonsType {
+        return ALL_AVAILABLE_MAPS.some((map) => map.value === value)
+    }
+
     /**
      * Returns map from current season dungeon pool
      *
@@ -13,7 +19,7 @@ export class MapService {
      * @returns string -- Map Url
      */
     static getCurrentSeasonMap(mapName: CurrentSeasonDungeonType): string {
-        return currentSeasonMaps[mapName]
+        return CURRENT_SEASON_MAPS[mapName]
     }
 
     /**
@@ -23,7 +29,7 @@ export class MapService {
      * @returns string -- Map Url
      */
     static getCurrentSeasonMapIcon(mapName: CurrentSeasonDungeonType): string {
-        return currentSeasonIcons[mapName]
+        return CURRENT_SEASON_ICONS[mapName]
     }
 
     static isCurrentSeasonMapValueType(
