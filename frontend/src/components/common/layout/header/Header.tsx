@@ -1,9 +1,12 @@
 import { Flex } from "@chakra-ui/react"
+import { useMapContext } from "@store/MapContext"
 import { Link } from "@tanstack/react-router"
 import { ColorModeButton } from "@ui/color-mode"
 import { H1 } from "@ui/h1"
 
 export const Header = () => {
+    const { map } = useMapContext()
+
     return (
         <Flex
             as="header"
@@ -18,7 +21,11 @@ export const Header = () => {
             </Link>
 
             <Flex as="nav" gap={2} alignItems={"center"}>
-                <Link to="/map" className="[&.active]:font-bold">
+                <Link
+                    to="/map/$map"
+                    params={{ map: map }}
+                    className="[&.active]:font-bold"
+                >
                     Map
                 </Link>
             </Flex>

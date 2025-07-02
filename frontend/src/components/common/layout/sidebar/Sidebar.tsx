@@ -3,7 +3,7 @@ import { SeasonDungeonList } from "./SeasonDungeonList"
 
 export const Sidebar = () => {
     return (
-        <Flex p={2} flexDirection={"column"}>
+        <Flex p={1} flexDirection={"column"}>
             <SeasonDungeonList />
         </Flex>
     )

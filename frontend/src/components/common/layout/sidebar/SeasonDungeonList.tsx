@@ -1,37 +1,55 @@
-import { Link as ChakraLink, Flex, Image } from "@chakra-ui/react"
-import { CURRENT_SEASON_DUNGEONS } from "@models/Map"
+import { Button, Flex, Image } from "@chakra-ui/react"
+import {
+    CURRENT_SEASON_DUNGEONS,
+    type CurrentSeasonDungeonType,
+} from "@models/Map"
 import { MapService } from "@services/MapService"
-import { Link as TanstackLink } from "@tanstack/react-router"
+import { useMapContext } from "@store/MapContext"
 import { Tooltip } from "@ui/tooltip"
 
 export const SeasonDungeonList = () => {
+    const { map: selectedMap, updateMap } = useMapContext()
+
+    const onButtonClick = (map: CurrentSeasonDungeonType) => {
+        updateMap(map)
+    }
+
     return (
-        <Flex flexDirection={"column"} gap={1}>
+        <Flex flexDirection={"column"} gap={0}>
             {CURRENT_SEASON_DUNGEONS.map((map, index) => {
                 const iconUrl = MapService.getCurrentSeasonMapIcon(map.value)
 
                 if (!iconUrl) return null
 
                 return (
-                    <ChakraLink key={index} w="fit-content" asChild>
-                        <TanstackLink
-                            to="/map/$map"
-                            params={{ map: map.value }}
+                    <Tooltip
+                        key={index}
+                        content={map.label}
+                        positioning={{ placement: "right" }}
+                    >
+                        <Button
+                            variant={"ghost"}
+                            p={"3px"}
+                            h="fit-content"
+                            w="fit-content"
+                            border="2px solid"
+                            borderColor={
+                                map.value === selectedMap
+                                    ? "red"
+                                    : "transparent"
+                            }
+                            borderRadius={"lg"}
+                            _hover={{ opacity: 0.8 }}
+                            onClick={() => onButtonClick(map.value)}
                         >
-                            <Tooltip
-                                content={map.label}
-                                positioning={{ placement: "right" }}
-                            >
-                                <Image
-                                    src={iconUrl}
-                                    w={"50px"}
-                                    h={"50px"}
-                                    borderRadius={"md"}
-                                    _hover={{ opacity: 0.8 }}
-                                />
-                            </Tooltip>
-                        </TanstackLink>
-                    </ChakraLink>
+                            <Image
+                                src={iconUrl}
+                                w={"50px"}
+                                h={"50px"}
+                                borderRadius={"md"}
+                            />
+                        </Button>
+                    </Tooltip>
                 )
             })}
         </Flex>

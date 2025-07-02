@@ -9,6 +9,8 @@ import TheRookeryIcon from "@assets/maps/the_rookery.png"
 import TheaterOfPainIcon from "@assets/maps/theater_of_pain.png"
 import MechagonWorkshopIcon from "@assets/maps/mechagon_workshop.png"
 
+// Make sure to keep the order of the Dungeon listing the same across every item
+
 export const CURRENT_SEASON_DUNGEONS = [
     { value: "PrioryOfTheSacredFlame", label: "Priory of the Sacred Flame" },
     { value: "OperationFloodgate", label: "Operation: Floodgate" },
@@ -18,6 +20,8 @@ export const CURRENT_SEASON_DUNGEONS = [
 ] as const
 export type CurrentSeasonDungeonType =
     (typeof CURRENT_SEASON_DUNGEONS)[number]["value"]
+
+export const DEFAULT_SELECTED_DUNGEON = CURRENT_SEASON_DUNGEONS[0].value
 
 export const currentSeasonMaps: Record<CurrentSeasonDungeonType, string> = {
     PrioryOfTheSacredFlame: PrioryOfTheSacredFlameMap,

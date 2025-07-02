@@ -31,6 +31,7 @@
             "@lib/*": ["./src/lib/*"],
             "@services/*": ["./src/services/*"],
             "@models/*": ["./src/models/*"],
+            "@store/*": ["./src/store/*"],
             "@routes/*": ["./src/routes/*"],
             "@pages/*": ["./src/pages/*"],
             "@common/*": ["./src/components/common/*"],
