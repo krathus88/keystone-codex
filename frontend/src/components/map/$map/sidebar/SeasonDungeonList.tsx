@@ -60,8 +60,8 @@ export const SeasonDungeonList = () => {
                         >
                             <Image
                                 src={iconUrl}
-                                w={"50px"}
-                                h={"50px"}
+                                w={"40px"}
+                                h={"40px"}
                                 borderRadius={"md"}
                             />
                         </Button>

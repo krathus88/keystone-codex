@@ -21,7 +21,7 @@ export const MapLayout = () => {
     if (!map) return null
 
     return (
-        <Grid templateColumns="69px 1fr" flex="1">
+        <Grid templateColumns="58px 1fr" flex="1">
             <GridItem mt={1} asChild>
                 <Sidebar />
             </GridItem>

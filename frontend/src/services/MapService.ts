@@ -1,4 +1,5 @@
 import {
+    ALL_AVAILABLE_DUNGEONS,
     ALL_AVAILABLE_MAPS,
     CURRENT_SEASON_DUNGEONS,
     CURRENT_SEASON_ICONS,
@@ -9,7 +10,17 @@ import {
 
 export class MapService {
     static isValidMap(value: string): value is AllAvailableDungeonsType {
-        return ALL_AVAILABLE_MAPS.some((map) => map.value === value)
+        return ALL_AVAILABLE_DUNGEONS.some((map) => map.value === value)
+    }
+
+    /**
+     * Returns map from available maps pool
+     *
+     * @param mapName - value in currentSeasonMaps
+     * @returns string -- Map Url
+     */
+    static getAvailableMap(mapName: AllAvailableDungeonsType): string {
+        return ALL_AVAILABLE_MAPS[mapName]
     }
 
     /**
